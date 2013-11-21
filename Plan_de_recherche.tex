@@ -342,17 +342,27 @@ The reasons for this emphasis are:
 
 \subsection{Bayesian Calibration of a Turbulence Model}
 
-As an illustrative example and to familiarize with the main idea of Bayesian framework and its method, simple case of physical model calibration were carried out during the first year. Here the RNG k-epsilon turbulence model (parametrized by 7 parameters) is calibrated using measurement data from backstep flow experiment \cite{Kasagi1995}. The turbulence model is implemented in the OpenFOAM framework where the backstep flow simulation model is part of the OpenFOAM validation case.
+As an illustrative example and to familiarize with the main idea of Bayesian framework and its method, simple case of physical model calibration were carried out during the first year. 
+Here the RNG k-epsilon turbulence model (parametrized by 7 parameters) is calibrated using measurement data from backstep flow experiment \cite{Kasagi1995}. 
+The turbulence model is implemented in the OpenFOAM framework where the backstep flow simulation model is part of the OpenFOAM validation case.
 
-The first step in statistical calibration is to develop a stochastic error model that probabilistically relates measured data and simulation results. There are two stochastic error models considered in the present analysis, it is either assumed to be independent or spatially correlated with an exponential form of correlation (with correlation length scale to be estimated). Then Markov Chain Monte Carlo simulation were carried out to characterize the posterior of the parameter conditioned on the data.
+The first step in statistical calibration is to develop a stochastic error model that probabilistically relates measured data and simulation results. 
+There are two stochastic error models considered in the present analysis, it is either assumed to be independent or spatially correlated with an exponential form of correlation (with correlation length scale to be estimated). 
+Then Markov Chain Monte Carlo simulation were carried out to characterize the posterior of the parameter conditioned on the data.
 
-The likelihood (error function) is formulated in line with the procedure given in \cite{Cheung2011}. Here as opposed to approach given by \cite{KennedyOHagan2001}, the multiplicative form discrepancy error was assumed such that no-slip boundary condition is retained. The discrepancy error was assumed to be Gaussian with mean$=1$ and standard deviation to be estimated.
+The likelihood (error function) is formulated in line with the procedure given in \cite{Cheung2011}. 
+Here as opposed to approach given by \cite{KennedyOHagan2001}, the multiplicative form discrepancy error was assumed such that no-slip boundary condition is retained. 
+The discrepancy error was assumed to be Gaussian with mean$=1$ and standard deviation to be estimated.
 \begin{equation}
 \text{prob}(\{D\} | \vec{\theta}, M_j) = \frac{1}{\sqrt{((2\pi)^2 \times|K|)}} \text{exp} \left[ - \frac{(d-y)^T K^{-1} (d-y)}{2} \right]
 \end{equation}
-Where the $d$ is the measured velocity data, $y$ is the simulation results with a given set of parameters, and $K$ is the covariance matrix which depends on the model structure $M_j$. For $j=1$, $K = Ke + Ki$ (measurement and model discrepancy independent variance), while for $j=2$, $K = Ke + Kc$ (measurement and model discrepancy correlated variance).
+Where the $d$ is the measured velocity data, $y$ is the simulation results with a given set of parameters, and $K$ is the covariance matrix which depends on the model structure $M_j$. 
+For $j=1$, $K = Ke + Ki$ (measurement and model discrepancy independent variance), while for $j=2$, $K = Ke + Kc$ (measurement and model discrepancy correlated variance).
 
-This resulted in 8 parameters for $M_1$ and 9 parameters for $M_2$ to be calibrated. The priors are set to be uniform and independent with the mean for the turbulence model parameters corresponds to the default values in OpenFOAM and with $\pm50\%$ upper and lower bound values for each parameter. 1000 samples (1000 simulation runs) from the posterior is then taken using Markov Chain Monte Carlo algorithm implemented in Matlab \cite{Haario2006}. The priors and the results are tabulated in Table~\ref{tab:BoundsOfUniformPDFs} and Table~\ref{tab:StatMCMCCorr}, respectively, while the marginal posterior distribution is given in Figure for the 9 parameters model.
+This resulted in 8 parameters for $M_1$ and 9 parameters for $M_2$ to be calibrated. 
+The priors are set to be uniform and independent with the mean for the turbulence model parameters corresponds to the default values in OpenFOAM and with $\pm50\%$ upper and lower bound values for each parameter. 
+1000 samples (1000 simulation runs) from the posterior is then generated using Markov Chain Monte Carlo algorithm implemented in Matlab \cite{Haario2006}. 
+The priors and the results are tabulated in Table~\ref{tab:BoundsOfUniformPDFs} and Table~\ref{tab:StatMCMCCorr}, respectively, while the marginal posterior distribution is given in Figure for the 9 parameters model.
 \begin{table}[htbp]
 	\centering
 		\caption{Bounds of Uniform PDFs}
@@ -402,16 +412,26 @@ This resulted in 8 parameters for $M_1$ and 9 parameters for $M_2$ to be calibra
 	\caption{Marginal Posterior PDFs for Model Parameters}
 	\label{fig:MarginalPosteriorPDFsForModelParameters}
 \end{figure}
-As can be seen, all the parameters are informed by the data. The uncertainties of the parameter obtained from the posterior can then be propagated to obtain robust prediction in other quantities (\textit{e.g.,} the wall shear stress). However it was not checked the robustness of the parameter estimation using another data sets. 
+As can be seen, all the parameters are informed by the data. 
+The uncertainties of the parameter obtained from the posterior can then be propagated to obtain robust prediction in other quantities (\textit{e.g.,} the wall shear stress). 
+However it was not checked the robustness of the parameter estimation using another data sets. 
 
 This exercise revealed some considerations in applying the Bayesian framework to calibrate TRACE reflood model with the data from reflood experiments:
 \begin{enumerate}
-	\item The reflood process is inherently transient in nature, so in addition to measurement on several locations, the data will also be in time series. This need to be considered in deriving error models especially if there is correlation structure both in space and time assumed.
-	\item Incorporating several type of available data. In some facilities, several other quantities other than cladding temperature were also measured, including for example, pressure drop and void fraction. These call for several goodness-of-fit measures between data and model to be considered at once. Even if the importance of these additional data is less than clad temperature, they nevertheless contains additional information of reflood process.
-	\item The boundary conditions in reflood experiment are dynamic in nature, the imposed power as well as the injected water temperature is time-dependent. Their uncertainties should also be taken into account.
-	\item Parameters that need to be calibrated in TRACE reflood model are not part of the user input specification. Some were already hard-coded with values from a calibration with a data from a facility (without any statement of their uncertainties). Some modifications in the source code are required to accommodate sensitivity and uncertainty analysis of TRACE.
-	\item Aggregating the uncertainty estimation of parameters of reflood model from a facility with another might not be straightforward. Although each reflood experiment in different facility basically experimented a reflood process in a rod bundle, specificities exist and might bias the results from each.
-	\item Related to above concern, the statistical parameter estimation of reflood model in TRACE might not be identifiable with the available data from a facility, thus the result is sensitive to a condition in a given facility and by no mean unique.
+	\item The reflood process is inherently transient in nature, so in addition to measurement on several locations, the data will also be in time series. 
+	This need to be considered in deriving error models especially if there is correlation structure both in space and time assumed.
+	\item Incorporating several type of available data. 
+	In some facilities, several other quantities other than cladding temperature were also measured, including for example, pressure drop and void fraction. 
+	These call for several goodness-of-fit measures between data and model to be considered at once. 
+	Even if the importance of these additional data is less than clad temperature, they nevertheless contain additional information of reflood process.
+	\item The boundary conditions in reflood experiment are dynamic in nature, the imposed power as well as the injected water temperature is time-dependent. 
+	Their uncertainties should also be taken into account.
+	\item Parameters that need to be calibrated in TRACE reflood model are not part of the user input specification. 
+	Some were already hard-coded with values from a calibration with a data from a facility (without any statement of their uncertainties). 
+	Some modifications in the source code are required to accommodate sensitivity and uncertainty analysis of TRACE.
+	\item Aggregating the uncertainty estimation of parameters of reflood model from a facility with another might not be straightforward. 
+	Although each reflood experiment in different facility basically experimented a reflood process in a rod bundle, specificities exist and might bias the results from each.
+	\item Related to above concern, the statistical parameter estimation of reflood model in TRACE might not be identifiable with the available data from a facility, thus the results are very sensitive to a specific condition in a given facility and by no mean unique or can be generalized.
 \end{enumerate}
 
 \newpage
@@ -419,16 +439,28 @@ This exercise revealed some considerations in applying the Bayesian framework to
 
 The proposed research plan, with emphasized placed on bottom reflood model and TRACE code, is expected to involve the following phases:
 \begin{enumerate}
-    \item First, comprehensive review of TRACE closure laws related to reflood phenomena. Most are part of the post-CHF closure package, which includes interfacial drag, wall drag, interfacial heat transfer, and wall heat transfer models or correlations. The goal is to obtain understanding how reflood is conceptualized in TRACE, and along with it how the models are parametrized. This will result in list of parameters that is perceived to be important in reflood simulation.
-    \item Second, as these parameters are often not part of user specification and hard-coded in TRACE, modification of TRACE is required for it to accomodate sensitivity and uncertainty analyses. The goal here is to externalize important parameters hard-coded in TRACE, thus make them available for user to modify for each run.  
-    \item Third, based on FEBA separate effect test facility, global sensitivity analysis of assumed important parameters (including the boundary and initial conditions) is carried out for the available type of measured data. In Bayesian framework, sensitivity analysis is an important for the purpose of system identification. In essence, if a measured value is insensitive to a (perceived) important parameter, then the uncertainty of this parameter cannot be inferred from this particular data. Excluding them prior to posterior sampling will save computational time or even reveal modeling error.
-    \item Fourth, based on several error models that can be assumed, posterior sampling is carried out to obtain the uncertainty in the parameters. The posterior sampling is performed via Markov Chain Monte Carlo (MCMC) illustrated in the example above. Further analysis for selecting (or averaging) the most plausible error model is done in this phase.
+    \item First, comprehensive review of TRACE closure laws related to reflood phenomena. 
+    Most are part of the post-CHF closure package, which includes interfacial drag, wall drag, interfacial heat transfer, and wall heat transfer models or correlations. 
+    The goal is to obtain understanding how reflood is conceptualized in TRACE, and along with it how the models are parametrized. 
+    This will result in list of parameters that is perceived to be important in reflood simulation.
+    \item Second, as these parameters are often not part of user specification and hard-coded in TRACE, modification of TRACE is required for it to accomodate sensitivity and uncertainty analyses. 
+    The goal here is to externalize important parameters hard-coded in TRACE, thus make them available for user to modify for each run.  
+    \item Third, based on FEBA separate effect test facility, global sensitivity analysis of assumed important parameters (including the boundary and initial conditions) is carried out for the available type of measured data. 
+    In Bayesian framework, sensitivity analysis is an important for the purpose of system identification. 
+    In essence, if a measured value is insensitive to a (perceived) important parameter, then the uncertainty of this parameter cannot be inferred from this particular data. 
+    Excluding them prior to posterior sampling will save computational time or even reveal modeling error.
+    \item Fourth, based on several error models that can be assumed, posterior sampling is carried out to obtain the uncertainty in the parameters. 
+    The posterior sampling is performed via Markov Chain Monte Carlo (MCMC) illustrated in the example above. 
+    Further analysis for selecting (or averaging) the most plausible error model is done in this phase.
     \item Next is the validation phase where the uncertainties obtained will be propagated in ``forecasting'' setting, using different data sets than the one used to derive the uncertainty of the model parameter. 
-    \item Fifth, the uncertainties of parameters obtained from two different facilities  need to be consistently combined while taking into account the facilities specificity and different range of experimental conditions. This phase involves a repetition of phase 3-5 but based on different facility (\textit{e.g.}, PERICLES). 
-    \item Finally, the results of combined uncertainties estimates need to be validated yet against another facility (\textit{e.g.}, NEPTUN). The goal here is to investigate if indeed experimental data from different reflood SETFs can be consolidated into the current implementation of reflood model in TRACE to increase its predictive capability in simulating reflood process.
+    \item Fifth, the uncertainties of parameters obtained from two different facilities need to be consistently combined while taking into account the facilities specificity and different range of experimental conditions. 
+    This phase involves a repetition of phase 3-5 but based on different facility (\textit{e.g.}, PERICLES). 
+    \item Finally, the results of combined uncertainties estimates need to be validated yet against another facility (\textit{e.g.}, NEPTUN). 
+    The goal here is to investigate if indeed experimental data from different reflood SETFs can be consolidated into the current implementation of reflood model in TRACE to increase its predictive capability in simulating reflood process.
 \end{enumerate}
 
-Basically for a given of reflood facility, the routine procedure would be: sensitivity analysis - uncertainty (backward) analysis for parametric calibration - uncertainty (forward) analysis for validation. The analyses at first are carried out separately for each reflood facilities. At the latter stage, however, the results will be consolidated where the uncertainty information of reflood physical model based on the data from various facilities are combined together in a consistent way, minimizing the specificity of the facilities and/or the experimental conditions.
+Basically for a given of reflood facility, the routine procedure would be: sensitivity analysis - uncertainty (backward) analysis for parametric calibration - uncertainty (forward) analysis for validation. The analyses at first are carried out separately for each reflood facilities. 
+At the latter stage, however, the results will be consolidated where the uncertainty information of reflood physical model based on the data from various facilities are combined together in a consistent way, minimizing the specificity of the facilities and/or the experimental conditions.
 
 Based on the phases identified above, a preliminary schedule for the 3-year dissertation work is proposed as follows:
 
@@ -446,14 +478,18 @@ Based on the phases identified above, a preliminary schedule for the 3-year diss
         \end{itemize}
    \item \textbf{Task 3 (10 months)}
         \begin{itemize}
-            \item Develop various plausible error models for input, output, and structural errors applicable for reflood model calibration. The nature of available data needs to be taken into account, that they are time series of measured values taken from different location. Possibility to incorporate information from different type of data (\textit{e.g.,} temperature and void fraction) need also to be considered.   
+            \item Develop various plausible error models for input, output, and structural errors applicable for reflood model calibration. 
+            The nature of available data needs to be taken into account, that they are time series of measured values taken from different location. 
+            Possibility to incorporate information from different type of data (\textit{e.g.,} temperature and void fraction) need also to be considered.   
             \item Develop or adapt available MCMC sampling algorithm that is efficient, can be parallelized, with informative diagnostics. 
             \item Carried out MCMC sampling based on each of the plausible structure of error models to characterize the uncertainty in the parameters conditioned on the data.
             \item Select the more plausible model based on the evaluation of the evidence of these models.
             \item If the reflood simulation proved to be too computationally demanding, develop a surrogate models to assist the calibration procedure.
          \end{itemize}
-   \item \textbf{Task 4 (1 month)}. Validation of the obtain uncertainty estimates by propagating them for another data set within the same facility (FEBA).
-   \item \textbf{Task 5 (10 months)}. In principle, repeat most of the previous four tasks for other reflood facilities (\textit{e.g.,} PERICLES and ACHILLES) to obtain the uncertainties in the important parameters.   
+   \item \textbf{Task 4 (1 month)}. 
+   Validation of the obtain uncertainty estimates by propagating them for another data set within the same facility (FEBA).
+   \item \textbf{Task 5 (10 months)}. 
+   In principle, repeat most of the previous four tasks for other reflood facilities (\textit{e.g.,} PERICLES and ACHILLES) to obtain the uncertainties in the important parameters.   
    \item \textbf{Task 3 (6 months)}: Consolidation and Validation
         \begin{itemize}
             \item Develop procedure to consolidate parameter estimation of reflood models based on two/three different reflood facilities.
