@@ -104,14 +104,19 @@ The transfer terms include interfacial drag, wall drag, interfacial heat transfe
 In principle, based on different two-phase flow pattern, a different phase distribution as well as different interfacial structure can be observed.
 As such, each of those transfer terms takes different form with different parameters depending on the pattern of the two-phase flow and they represent different physical processes take place at each pattern.
  
-These physical models, so-called \emph{closure laws or relationships}, close the set of balance equations for mass, momentum, and energy of the two phases.
+These physical models, or the so-called \emph{closure laws or relationships} mentioned previously, close the set of balance equations for mass, momentum, and energy of the two phases.
 They are to be derived experimentally, but proved to be a difficult effort \cite{Nelson1992,Wulff2007} due to various reasons ranging from lack of knowledge to limitation in measurement instruments. 
 Simplifying assumptions and at times extrapolations have to be made simply because of limited available data. 
-Ultimately, the set of models and correlations implemented in the codes is a major of source of uncertainty\footnote{Uncertainty here is defined as a state of limited knowledge, that is of epistemic nature}.
+Ultimately, the set of models and correlations implemented in the codes is a major of source of uncertainty\footnote{Uncertainty here is defined as a state of limited knowledge, that is of \emph{epistemic} nature}.
 
 \subsection{Uncertainty Analysis} 
 
-As best-estimate analysis uses less conservative assumptions, and even the best available knowledge for some two-phase flow processes in nuclear power plant during transient is still limited, best-estimate analysis has to be complemented with uncertainty analysis.
+As explained, best-estimate analysis uses more realistic modeling assumptions for analyzing transient behavior of nuclear power plant.
+It attempts to realistically describe the behavior of physical processes occur in power plant transient.
+And yet, even the best available knowledge for some two-phase flow processes in nuclear power plant during transient is still limited.
+Data support for some processes is limited or adequate understanding of complex phenomena might not yet available.
+Simplifying assumptions, approximations and expert judgments to some degree are unavoidable and still required to have a complete analysis. 
+Hence, best-estimate analysis has to be complemented with uncertainty analysis.
 The ultimate goal of uncertainty analysis is to associate code prediction with its uncertainty. 
 These combined quantities are then compared with certain regulatory safety limits (\textit{e.g.,} Peak Cladding Temperature, PCT) to check whether the limits still fall outside the uncertainty band of the code prediction.
 
