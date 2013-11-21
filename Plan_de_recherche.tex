@@ -56,28 +56,43 @@
 \newpage
 \section{Introduction (cadre général) / {\large\textit{Introduction}}:}
 
-Physical and conceptual thermal-hydraulics models are important tools for simulating the system behavior of nuclear power plant.
-The state-of-the-art model currently employed to describe the dynamics of fluid flow in nuclear power plant is based on the two-fluid model \cite{Ishii2011}.
-This model separately treats the transport phenomena of the two phases of water (gas and liquid).
-The model can capture phenomena where thermal and mechanical non-equilibrium conditions exist between the two phases, conditions which reflected by complex interfacial structure between phases.
-This leads to a more realistic prediction of plant parameters during transients or accident scenarios.
-That is, the simulation is carried out in best-estimate way.
-Best-estimate analysis of plant system behavior in turn often leads to wider operational margin. 
+During early days of reactor safety analysis, prediction using model of power plant behavior during transient, off-normal or accident conditions, is approached with high-degree of conservatism. 
+Conservatism calls for the most penalizing modeling assumptions to ensure conservative results, which is far below their regulatory limits.
+This approach, though less realistic, is justified by limited modeling capabilities as well as limited knowledge of physical processes.
+However, it was later found that there are conditions where conservative assumptions do not necessarily lead to conservative (or even physical) predictions.
 
-The validity of the two-fluid model widely employed in thermal-hydraulics system codes relies on the proper modeling of the transfer terms between phases and each phase to the boundary wall. 
-These so-called closure laws close the set of balance equations for mass, momentum, and energy between the two phases. 
-They are to be derived experimentally, but proved to be a difficult effort \cite{Nelson1992,Wulff2007} due to various reasons (lack of instrumentation or lack of knowledge). 
-Simplifying assumption and at times extrapolation have to be made simply because no available data. 
+As an example of this contradiction consider the following situation in the analysis of Loss-of-Coolant-Accident (LOCA) as described in \cite{IAEA2010}.
+Assuming less interfacial shear between liquid and gas phase of water reducing mist flow during LOCA is conservative in the sense that less heat will be transferred to the coolant flow in the upper region of the core.
+This penalizes the fuel temperature prediction.
+But this assumption will also imply that time to refill the core is shorter as there are more liquid retained in the cooling system. 
+Furthermore, with less shear, there is less resistance in injecting emergency coolant into the core (condition known as counter-current flow limitation). 
+Both of these are clearly non-conservative and contradicting the first conservative assumption.  
+
+Therefore, an accurate prediction of two-phase flow transient behavior is required for safety analysis of nuclear power plant under accident conditions.
+Such need calls for physical thermal-hydraulics models with realistic modeling assumptions which are also backed by experimental data.
+With the idea of having more realistic prediction in mind, a best-estimate thermal-hydraulics (TH) system code was developed.
+The code is designed to be a comprehensive tool to simulate realistically wide range of transients foreseen in nuclear power plant operation.
+It was developed using the current best knowledge of flow processes expected to happen during the transients.
+ 
+The state-of-the-art model widely implemented in TH system codes to describe the dynamics of fluid flow in nuclear power plant is based on the two-fluid model \cite{Ishii2011}.
+This model separately treats the transport phenomena of the two phases of fluid (gas and liquid) resulting in 6 balance equations (mass, momentum, and energy for each phase).
+The model can capture phenomena where thermal and mechanical non-equilibrium conditions exist between the two phases, conditions which reflected by complex interfacial structure between phases.
+The resolution of non-equilibrium conditions in two-phase flows is necessary for simulating several important flow phenomena during transient.
+
+The validity of the two-fluid model widely implemented in thermal-hydraulics system codes relies on the proper modeling of the transfer terms between phases and each phase to the boundary wall. 
+These physical models, so-called \emph{closure laws}, close the set of balance equations for mass, momentum, and energy of the two phases. 
+They are to be derived experimentally, but proved to be a difficult effort \cite{Nelson1992,Wulff2007} due to various reasons ranging from lack of knowledge to limitation in measurement instruments. 
+Simplifying assumptions and at times extrapolations have to be made simply because of limited available data. 
 Ultimately, the set of models and correlations implemented in the codes is a major of source of uncertainty\footnote{Uncertainty here is exclusively defined as a state of limited knowledge}. 
 
-Indeed, best-estimate analysis for reactor safety analysis has be complemented with uncertainty analysis. 
-The ultimate goal is to associate the code prediction with its uncertainty. 
-This combined quantities are then compared with certain regulatory safety limits (\textit{e.g.,} Peak Cladding Temperature, PCT) to check whether the limits still fall outside the uncertainty band of the code prediction.
- 
-Over the past couple of decades various methodologies have been developed to treat the uncertainty in the results in probabilistic manner. 
-The sources of uncertainties in the input are defined either as an interval or a distribution. 
-Then they are propagated to obtain the uncertainty estimates of the results. 
-Characterizing the sources of uncertainty constitutes a crucial step in the whole uncertainty analysis.   
+As best-estimate analysis uses less conservative assumptions, and even the best available knowledge of two-phase flow processes in nuclear power plant during transient is still limited, best-estimate analysis has to be complemented with uncertainty analysis.
+The ultimate goal of the analysis is to associate the code prediction with its uncertainty. 
+These combined quantities are then compared with certain regulatory safety limits (\textit{e.g.,} Peak Cladding Temperature, PCT) to check whether the limits still fall outside the uncertainty band of the code prediction.
+
+%Over the past couple of decades various methodologies have been developed to treat the uncertainty associated with the code predictions in probabilistic manner.
+%The sources of uncertainties in the input are defined either as an interval or a distribution. 
+%Then they are propagated to obtain the uncertainty estimates of the results. 
+%Characterizing the sources of uncertainty constitutes a crucial step in the whole uncertainty analysis.   
 
 \subsection{State of the Research}
 
