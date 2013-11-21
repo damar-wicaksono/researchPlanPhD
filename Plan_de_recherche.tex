@@ -142,19 +142,45 @@ Then by defining criterion for maximum allowed deviation of AA from the base cas
 
 \subsection{Statement of the Problem}
 
-The development of closure laws for reflooding described in \cite{Nelson1992} showed the difficulties and the amount of assumptions used. In principle, system code development is an effort to consolidate correlations and mechanistic models, to create phenomenological-based code that can provide the best-estimate results. This consolidated effort results in a code that can simulate wide range of transients foreseen in nuclear power plant operation in a best-estimate way. Alas, to come up with a consistent set of closure laws is a great challenge for code developers.
+The development of closure laws for reflooding described in \cite{Nelson1992} showed the difficulties and the amount of assumptions used. 
+In principle, system code development is an effort to consolidate correlations and mechanistic models, to create phenomenological-based code that can provide the best-estimate results. 
+This consolidated effort results in a code that can simulate wide range of transients foreseen in nuclear power plant operation in a best-estimate way. 
+Alas, to come up with a consistent set of closure laws is a great challenge for code developers.
 
-The closure laws required to close the two-fluid model pose particularly difficult challenges \cite{Wulff2007}. For instance, to have correlation of heat transfer between the wall and the fluid, temperature data from each of the constituents are needed (the wall, the liquid phase, and the gas phase). But measuring temperature of the individual phases in arbitrary interfacial topology has its own technical difficulties that no such data exists or available to be implemented in the closure laws. Approximation  Additionally, the experiments to obtain hydrodynamic closure laws (\textit{e.g.,} interfacial friction factor, wall friction factor, etc.) were carried out in adiabatic condition. This excludes the coupling to any heat transfer phenomena between the phases and with the wall in such correlation. 
+The closure laws required to close the two-fluid model pose particularly difficult challenges \cite{Wulff2007}. 
+For instance, to have correlation of heat transfer between the wall and the fluid, temperature data from each of the constituents are needed (the wall, the liquid phase, and the gas phase). 
+But measuring temperature of the individual phases in arbitrary interfacial topology has its own technical difficulties that no such data exists or available to be implemented in the closure laws.
+Additionally, the experiments to obtain hydrodynamic closure laws (\textit{e.g.,} interfacial friction factor, wall friction factor, etc.) were carried out in adiabatic condition. 
+This excludes the coupling to any heat transfer phenomena between the phases and with the wall in such correlation. 
 
-Furthermore, during development of TRACE code, programming considerations also came into the picture. For robustness, simplification is often required and continuity is enforced. Transitionary regime between two flow regimes where experimental data does not exist is modeled to be the averaged of the two bounding regimes. In the end, the phenomenological models implemented in TRACE are specific to TRACE. Different code development, which used different assumptions and experimental database, comes up with other set of closure laws with their own parametrization (see for instance \cite{Bestion1990} for CATHARE development). Several authors have expressed their concerns about the uncertainty stemming from the closure laws (\cite{Wulff2007, DAuria2012, Petruzzi2008}).
+Furthermore, during development of TRACE code, programming considerations also came into the picture. 
+For robustness, simplification is often required and continuity is enforced. 
+Transitionary regime between two flow regimes where experimental data does not exist is modeled to be the averaged of the two bounding regimes. 
+In the end, the phenomenological models implemented in TRACE are specific to TRACE. 
+Different code development, which used different assumptions and experimental database, comes up with other set of closure laws with their own parametrization (see for instance \cite{Bestion1990} for CATHARE development). 
+Several authors have expressed their concerns about the uncertainty stemming from the closure laws (\cite{Wulff2007, DAuria2012, Petruzzi2008}).
 
 As an example of the point given above, consider that in TRACE code, after some derivations, the interfacial drag coefficient closure law in the inverted slug flow regime $C_{i,IS}$ is given by,
 \begin{equation}
 C_{i,IS} = \Psi_{SET} \times \frac{1}{24}\frac{\rho_g}{\text{La}}\frac{(1-\alpha)}{\alpha^{1.8}} \; \; \; \; ;\Psi_{SET} = 0.75
 \end{equation}
-There are several remarks about the closure law given above. First, the second term in the right-hand side was derived from experimental data but not originally in the form above. In the inverted slug regime, saturated liquid core breaks up into ligaments. These ligaments are \emph{assumed} to take form as prolate ellipsoid. The drag coefficient of distorted droplet from experimental data is then \emph{assumed}. Then to take into account of multi-particle effect, the coefficient is multiplied by void fraction raised to the power of $1.8$ (this was taken from experimental data of inertial regime). Lastly, the first term, $\Psi_{SET} = 0.75$ was put \emph{to match} the experimental data from FLECHT-SEASET reflood facility. This first term, although clearly non-physical, is an important tuning parameter of the model nonetheless. Its uncertainty should be considered in uncertainty analysis, especially when reflood is expected to occur. However, no statement of the uncertainty is given. Several other such terms exist in TRACE code \cite{TraceTheory2012}.
+There are several remarks about the closure law given above. 
+First, the second term in the right-hand side was derived from experimental data but not originally in the form above. 
+In the inverted slug regime, saturated liquid core breaks up into ligaments. 
+These ligaments are \emph{assumed} to take form as prolate ellipsoid. 
+The drag coefficient of distorted droplet from experimental data is then \emph{assumed}. 
+Then to take into account of multi-particle effect, the coefficient is multiplied by void fraction raised to the power of $1.8$ (this was taken from experimental data of inertial regime). 
+Lastly, the first term, $\Psi_{SET} = 0.75$ was put \emph{to match} the experimental data from FLECHT-SEASET reflood facility. 
+This first term, although clearly non-physical, is an important tuning parameter of the model nonetheless. 
+Its uncertainty should be considered in uncertainty analysis, especially when reflood is expected to occur. 
+However, no statement of the uncertainty is given. 
+Several other such terms exist in TRACE code \cite{TraceTheory2012}.
 
-From the above discussion, it is clear that models in thermal-hydraulics system code, like any other models, are flawed. Various experimental programs were carried out to gain better understanding of an important phenomena, and to validate (and, as noted above, to calibrate) the models. Series of the experiments, carried out in Separate Effect Test Facilities (SETFs) were aimed to reproduce limited part of the transient or components during limited time periods following a postulated scenario. For example in the case of reflooding, over the past three decades, several facilities existed and data were accumulated (FEBA, PERICLES, etc.). But, there has not been an orchestrated effort to incorporate the accumulated data into the calibration process, in systematic way, while acknowledging the uncertainties of other sources in the process. 
+From the above discussion, it is clear that models in thermal-hydraulics system code, like any other models, are flawed. 
+Various experimental programs were carried out to gain better understanding of an important phenomena, and to validate (and, as noted above, to calibrate) the models. 
+Series of the experiments, carried out in Separate Effect Test Facilities (SETFs) were aimed to reproduce limited part of the transient or components during limited time periods following a postulated scenario. 
+For example in the case of reflooding, over the past three decades, several facilities existed and data were accumulated (FEBA, PERICLES, etc.). 
+But, there has not been an orchestrated effort to incorporate the accumulated data into the calibration process, in systematic way, while acknowledging the uncertainties of other sources in the process. 
 
 % However, this source of uncertainty is of course just one of many other sources of uncertainties that need to be taken into account in uncertainty analysis (in initial condition, in boundary conditions, etc.). The plethora of methods described previously, most take uncertainty  as probability, in a form of parametrized distribution, to be sampled from, and then propagated into the code to have a measure of uncertainty in the predicted results. The uncertainty of  Unfortunately, as the example above, uncertainties in the model parameters (either physical or tuning parameter) are not usually quantified in anyway.
 
@@ -166,17 +192,39 @@ From the above discussion, it is clear that models in thermal-hydraulics system 
 
 \subsection{Objective}
 
-The overall objective of the research is to quantify the uncertainty of physical models implemented in TRACE in the form of closure laws. These models are parametrized either with physical parameters or tuning parameters. Usual practice by the code developer is to calibrate them against some an experimental without any statement of their uncertainties. To conform with the framework of uncertainty propagation already better developed, especially for \emph{forecasting} purpose, where no data is available whatsoever, uncertainty of these parameters are required in the form of probability distribution. Additionally, this quantification process also need to take into account the accumulated data that has been generated from series of similar experiments from various facilities.
+The overall objective of the research is to quantify the uncertainty of physical models implemented in TRACE in the form of closure laws. 
+These models are parametrized either with physical parameters or tuning parameters. 
+Usual practice by the code developer is to calibrate them against some an experimental without any statement of their uncertainties. 
+To conform with the framework of uncertainty propagation already better developed, especially for \emph{forecasting} purpose, where no data is available whatsoever, uncertainty of these parameters are required in the form of probability distribution. 
+Additionally, this quantification process also need to take into account the accumulated data that has been generated from series of similar experiments from various facilities.
 
 As will be elaborated below, the physical model under consideration for this research is the reflood model and the thermal-hydraulic code used is TRACE \cite{TraceTheory2012}.
 
 \subsection{Bayesian Framework}
 
-System code is a complex tool to simulate complex problem. Usage of partial information, assumptions, subjectivity, and judgments are inevitable and are, in fact, crucial to make initial progress. The key then is to be as transparent as possible about these assumptions, to systematically check them, and in the light of new data, to allow the change in assumptions. These are certainly more constructive than merely being objective. All of these are accommodated naturally using Bayesian approach to quantify uncertainty.
+System code is a complex tool to simulate complex problem. 
+Usage of partial information, assumptions, subjectivity, and judgments are inevitable and are, in fact, crucial to make initial progress. 
+The key then is to be as transparent as possible about these assumptions, to systematically check them, and in the light of new data, to allow the change in assumptions. 
+These are certainly more constructive than merely being objective. 
+All of these are accommodated naturally using Bayesian approach to quantify uncertainty.
 
-Bayesian approach stated here does not correspond to a specific methodology. Instead, it refers to a framework which pose the inverse problem of parameter estimation in terms of probability. Beck \cite{Beck2010} refers to this procedure as \emph{stochastic embedding}. Pose in this way, Bayesian inference machinery can be used to infer the parameters of interest given the available data. Furthermore, as the key idea of Bayesian inference is to explore the posterior distribution (instead of finding single set of optimum parameters in the traditional deterministic calibration setting), the uncertainty of the parameters can be characterized. This characterization of parameter uncertainty of the model while simultaneously taking into account other sources of uncertainty is the ultimate goal of this thesis. 
+Bayesian approach stated here does not correspond to a specific methodology. 
+Instead, it refers to a framework which pose the inverse problem of parameter estimation in terms of probability. 
+Beck \cite{Beck2010} refers to this procedure as \emph{stochastic embedding}. 
+Posed in this way, Bayesian inference machinery can be used to infer the parameters of interest given the available data. 
+Furthermore, as the key idea of Bayesian inference is to explore the posterior distribution (instead of finding single set of optimum parameters in the traditional deterministic calibration setting), the uncertainty of the parameters can be characterized. 
+This characterization of parameter uncertainty of the model while simultaneously taking into account other sources of uncertainty is the ultimate goal of this thesis. 
 
-The first step to carry out Bayesian analysis is to cast the problem in terms of probability. The source of uncertainty that caused discrepancy (error) in the model prediction will be modeled as a random variable. The framework for error models used in this research is adapted and elaborated from the work of Huard and Mailhot \cite{HuardMailhot2006} (see Fig.~\ref{fig:HuardMailhot}). It is assumed that there exists true process, true input, true output, true model parameters. However, in practice data is finite and distorted, and models are an approximation due to lack of knowledge. That is, our analysis and prediction is distorted by uncertainties. According to the figure there are three main types of errors due to uncertainty: input, output, and structural errors. They have to modeled probabilistically.
+The first step to carry out Bayesian analysis is to cast the problem in terms of probability. 
+The source of uncertainty that caused discrepancy (error) in the model prediction will be modeled as a random variable. 
+The framework for error models used in this research is adapted and elaborated from the work of Huard and Mailhot \cite{HuardMailhot2006} (see Fig.~\ref{fig:HuardMailhot}). 
+It is assumed that there exists true process, true input, true output, true model parameters. 
+However, in practice data, is finite and distorted, and models are an approximation due to lack of knowledge. 
+That is, our analysis and prediction are distorted by uncertainties. 
+
+According to the figure there are three main types of errors due to uncertainty: input, output, and structural errors. 
+They will have to be modeled probabilistically.
+The following paragraphs will describe each of the errors.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.55\textwidth]{HuardMailhot.pdf}
@@ -184,13 +232,27 @@ The first step to carry out Bayesian analysis is to cast the problem in terms of
 	\label{fig:HuardMailhot}
 \end{figure}
 
-Input error refers to the difference between the true input $\mathbf{\tilde{x}}$ and the measured input $\mathbf{x}$. The measured input is limited by the imperfection of the measurement device. In the context of separate effect test, the input is the imposed initial and boundary conditions of the experiment. These conditions drive the system response during the test and they are measured with finite precision. Because the test conditions differ even within the same facility, these errors has to be taken into account for robust parameter estimation.
+Input error refers to the difference between the true input $\mathbf{\tilde{x}}$ and the measured input $\mathbf{x}$. 
+The measured input is limited by the imperfection of the measurement device. 
+In the context of separate effect test, the input is the imposed initial and boundary conditions of the experiment. 
+These conditions drive the system response during the test and they are measured with finite precision. 
+Because the test conditions differ even within the same facility, these errors has to be taken into account for robust parameter estimation.
 
-Output error is analogous to the input error described above. It is the difference between the true output $\mathbf{\tilde{y}}$ and the measured output $\mathbf{y}$. It is the system response for the imposed boundary conditions. 
+Output error is analogous to the input error described above. 
+It is the difference between the true output $\mathbf{\tilde{y}}$ and the measured output $\mathbf{y}$. 
+It is the system response for the imposed boundary conditions. 
 
-Structural error is defined as the difference between model results and the true output $\mathbf{\tilde{y}}$. Modeling process relates the input to the output via a model parameterized with $\underline{\theta}$. By definition of model, even with a perfect set of parameters (which in principle, are also unknown, uncertain), model will still be inadequate. There are processes which are not taken into account either because lack of knowledge, fallacy in the hypothesis or even error in numerical solution implementation. As shown in \cite{KennedyOHagan2001}, not taking into account structural error during calibration biases the parameter estimates and reduces the model predictive capabilities.
+Structural error is defined as the difference between model results and the true output $\mathbf{\tilde{y}}$. 
+Modeling process relates the input to the output via a model parametrized with $\underline{\theta}$. 
+By definition of model, even with a perfect set of parameters (which in principle, are also unknown, uncertain), model will still be inadequate. 
+There are processes which are not taken into account either because lack of knowledge, fallacy in the hypothesis or even error in the numerical solution. 
+As shown in \cite{KennedyOHagan2001}, not taking into account structural error during calibration biases the parameter estimates and reduces the model predictive capabilities.
 
-The treatment of input and output errors belong to experimental data analysis and most of the time is straightforward. However, there is no standard approach to the model structural error. The structural error can be expected to show bias (due to incorrect or excluded process) as well as to be correlated in time and space, depending on the nature of problem. Several possibilities are available to model this error \cite{Simoen2013, Schoups2010}. In this context, an additional strength of Bayesian framework is that the plausibility of different error models can be checked and compared via their evidence as shown in \cite{Beck2010}.
+The treatment of input and output errors belong to experimental data analysis and most of the time is straightforward. 
+However, there is no standard approach to the model structural error. 
+The structural error can be expected to show bias (due to incorrect or excluded process) as well as to be correlated in time and space, depending on the nature of problem. 
+Several possibilities are available to model this error \cite{Simoen2013, Schoups2010}. 
+In this context, an additional strength of Bayesian framework is that the plausibility of different error models can be checked and compared via their evidence as shown in \cite{Beck2010}.
 
 In general, the above error model can be written as follows, independently of their forms:
 \begin{equation}
@@ -201,7 +263,8 @@ In general, the above error model can be written as follows, independently of th
 \end{array}
 \nonumber
 \end{equation}
-Note that the structural error model is conditioned on a specific model class $\mathcal{M}$ that defines its parametrization. To obtain the posterior distribution of the parameters based on their priors and conditioned on the data (both output and input) and specific model class, Bayes' theorem is applied,
+Note that the structural error model is conditioned on a specific model class $\mathcal{M}$ that defines its parametrization. 
+To obtain the posterior distribution of the parameters based on their priors and conditioned on the data (both output and input) and specific model class, Bayes' theorem is applied,
 \begin{equation}
 \begin{array}{rcl} 
 	p(\underline{\theta} \mid \mathbf{y}, \mathbf{x}, \mathcal{M} )	& = & \int \int p(\underline{\theta}, \mathbf{\tilde{y}}, \mathbf{\tilde{x}} \mid \mathbf{x}, \mathbf{y}, \mathcal{M} ) \: d\mathbf{\tilde{x}} d\mathbf{\tilde{y}} \\ 
@@ -209,7 +272,10 @@ Note that the structural error model is conditioned on a specific model class $\
 \end{array}
 \nonumber
 \end{equation}
-Where the posterior is condiioned on the observed data and model class $\mathcal{M}$. The integration is carried out to marginalize the joint distribution. To characterize the posterior distribution, Monte Carlo simulation method is usually performed. One of the popular approach is to use markov chain monte carlo simulation to generate sample representative of the posterior.
+Where the posterior is condiioned on the observed data and model class $\mathcal{M}$. 
+The integration is carried out to marginalize the joint distribution. 
+To characterize the posterior distribution, Monte Carlo simulation is usually performed. 
+One of the popular approach is to use Markov Chain Monte Carlo (MCMC) simulation to generate sample representative of the posterior.
 
 %In essence, it is solving a traditional calibration problem. However as opposed to deterministic approach where the goal is to obtain single solution of optimum parameters, in Bayesian framework the effort is to explore the probability space to determine the uncertainty in the unknown given the observed data. Because sources of uncertainty can be modeled probabilistically, the inadequacy of the model can be also be modeled complementing the parametric uncertainty analysis as suggested in \cite{KennedyOHagan2001}. All of these avoid the risk of overfitting the parameters into a specific data set and cannot be applied for another.
 %
@@ -221,11 +287,20 @@ Where the posterior is condiioned on the observed data and model class $\mathcal
 
 \subsection{Context}  
 
-Although the steps taken in this research can be applicable to any system code physical model calibration and validation, the attention will be focused on the models of particular importance during reflooding, the so-called Post-CHF flow regimes. The reasons for this emphasis are:
+Although the steps taken in this research can be applicable to any system code physical model calibration and validation, the attention will be focused on the models of particular importance during reflooding, the so-called Post-CHF flow regimes. 
+The reasons for this emphasis are:
 \begin{enumerate}
-	\item Reflooding is an important part in the simulation of nuclear power plant transient during LOCA. Modeling reflooding determines the appropriate representation of the dynamics of heat transfer phenomena during the effort to rewet an uncovered core. Of paramount interest is to estimate the time the rod can be expected to be rewet as well as the maximum temperature reached prior to rewet. Reflood is a transient with highly coupled hydrodynamic-heat transfer effects and it challenges the assumption made on the implemented closure laws. Indeed, several Separate Effect Test (SET) reflood programs existed and were designed to validate reflood models in system code. Unfortunately, no orchestrated effort so far to consolidate the generated data in general and into TRACE code in particular.
-	\item The models are complex enough without being too complex. It is complex that 5 flow regimes are involved in a single phenomena. But as the source of data is from reflooding separate effect test facilities (SETFs), system effect can be excluded and analysis can be concentrated on limited set of models. In fact, as already pointed out, reflood SETFs are designed to validate (and calibrate) reflood models in sytem codes.
-	\item Additional data from another reflooding facilities are also available, including data obtained from series of experiments at Neptun facility conducted at Paul Scherrer Institut during the 1990s, as well as data from experiments at PERICLES facility conducted by CEA.
+	\item Reflooding is an important part in the simulation of nuclear power plant transient during LOCA. 
+	Modeling reflooding determines the appropriate representation of the dynamics of heat transfer phenomena during the effort to rewet an uncovered core. 
+	Of paramount interest is to estimate the time the rod can be expected to be rewet as well as the maximum temperature reached prior to rewet. 
+	Reflood is a transient with highly coupled hydrodynamic-heat transfer effects and it challenges the assumption made on the implemented closure laws. 
+	Indeed, several Separate Effect Test (SET) reflood programs existed and were designed to validate reflood models in system code. 
+	Unfortunately, no orchestrated effort so far to consolidate the generated data in general and into TRACE code in particular.
+	\item The models are adequately complex. 
+	It is complex that 5 flow regimes are involved in a single phenomena. 
+	But as the source of data is from reflooding separate effect test facilities (SETFs), system effect can be excluded and analysis can be concentrated on limited set of models. 
+	In fact, as already pointed out, reflood SETFs are designed to validate (and calibrate) reflood models in sytem codes.
+	\item Additional data from another reflooding facilities are also available, including data obtained from series of experiments at the Neptun facility conducted at Paul Scherrer Institut during the 1990s, as well as data from experiments at the PERICLES facility conducted by CEA.
 	\item It is the model considered in PREMIUM benchmark, thus there is possibility to compare the results of this research with the results of the other participants.
 \end{enumerate}
 
