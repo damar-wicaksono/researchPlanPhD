@@ -56,43 +56,69 @@
 \newpage
 \section{Introduction (cadre général) / {\large\textit{Introduction}}:}
 
-During early days of reactor safety analysis, prediction using model of power plant behavior during transient, off-normal or accident conditions, is approached with high-degree of conservatism. 
+During the early days of reactor safety analysis, prediction using model of power plant behavior during transient, off-normal or accident conditions, is approached with high-degree of conservatism. 
 Conservatism calls for the most penalizing modeling assumptions to ensure conservative results, which is far below their regulatory limits.
 This approach, though less realistic, is justified by limited modeling capabilities as well as limited knowledge of physical processes.
 However, it was later found that there are conditions where conservative assumptions do not necessarily lead to conservative (or even physical) predictions.
 
-As an example of this contradiction consider the following situation in the analysis of Loss-of-Coolant-Accident (LOCA) as described in \cite{IAEA2010}.
+As an example of this contradiction, consider the following situation in the analysis of Loss-of-Coolant-Accident (LOCA) as described in \cite{IAEA2010}.
 Assuming less interfacial shear between liquid and gas phase of water reducing mist flow during LOCA is conservative in the sense that less heat will be transferred to the coolant flow in the upper region of the core.
 This penalizes the fuel temperature prediction.
 But this assumption will also imply that time to refill the core is shorter as there are more liquid retained in the cooling system. 
 Furthermore, with less shear, there is less resistance in injecting emergency coolant into the core (condition known as counter-current flow limitation). 
 Both of these are clearly non-conservative and contradicting the first conservative assumption.  
 
-Therefore, an accurate prediction of two-phase flow transient behavior is required for safety analysis of nuclear power plant under accident conditions.
-Such need calls for physical thermal-hydraulics models with realistic modeling assumptions which are also backed by experimental data.
+Therefore, a more accurate prediction of two-phase flow transient behavior was deemed necessary for safety analysis of nuclear power plant under accident conditions.
+As opposed to conservative analysis, this approach was coined \textit{best-estimate} analysis. 
+Such an analysis calls for physically sound thermal-hydraulics models with realistic modeling assumptions which at the same time are also backed by experimental data.
 With the idea of having more realistic prediction in mind, a best-estimate thermal-hydraulics (TH) system code was developed.
-The code is designed to be a comprehensive tool to simulate realistically wide range of transients foreseen in nuclear power plant operation.
-It was developed using the current best knowledge of flow processes expected to happen during the transients.
+The code is designed to be a comprehensive tool capable simulating realistically wide range of transients foreseen in nuclear power plant operation.
+It was developed using the current best understanding of flow processes expected to happen during the transients.
  
+\subsection{Models and Codes}
+
+As mentioned, thermal-hydraulics system codes was designed to simulate system behavior of a power plant during off-normal or accident conditions. 
+The typical structure of system code is illustrated in Fig.~\ref{fig:systemCode}. 
+As can be seen, system code constitutes of several building blocks that can be used to modeled and simulate wide range of system and conditions. 
+The core of system code is the balance equations describing the dynamic state of the fluid. 
+To close the system\footnote{\textit{i.e.}, to have the same number of equations as the number of unknowns}, it has to be complemented by 2 additional set of constitutive equations. 
+First, it is the equation of state that describes the thermodynamic relation of between state variables of a given fluid. 
+Second, it is the closure relationships that describe the interaction between phases and each phase to the boundary wall in terms of mass, momentum, and energy.  
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.55\textwidth]{SystemCode.pdf}
+	\caption{Structure of a system code}
+	\label{fig:systemCode}
+\end{figure}
+
+In a typical usage, a user will specify the geometry (the configuration of the plant), as well as boundary and initial conditions for the problem of interest.
+Based on this information, the code will then in solves a set of balance equations describing the fluid flow.
+As a result, the code will make prediction on the evolution of the fluid state, namely, pressure, enthalpy, and fluid velocity in each part of the modeled plant.
+
 The state-of-the-art model widely implemented in TH system codes to describe the dynamics of fluid flow in nuclear power plant is based on the two-fluid model \cite{Ishii2011}.
 This model separately treats the transport phenomena of the two phases of fluid (gas and liquid) resulting in 6 balance equations (mass, momentum, and energy for each phase).
-The model can capture phenomena where thermal and mechanical non-equilibrium conditions exist between the two phases, conditions which reflected by complex interfacial structure between phases.
-The resolution of non-equilibrium conditions in two-phase flows is necessary for simulating several important flow phenomena during transient.
+The model can capture phenomena where thermal and mechanical non-equilibrium conditions exist between the two phases, conditions which are more realistic in wide range of nuclear power plant transients.
 
-The validity of the two-fluid model widely implemented in thermal-hydraulics system codes relies on the proper modeling of the transfer terms between phases and each phase to the boundary wall. 
-These physical models, so-called \emph{closure laws}, close the set of balance equations for mass, momentum, and energy of the two phases. 
+The validity of the two-fluid model widely implemented in thermal-hydraulics system codes relies on the proper modeling of the transfer terms between phases and each phase to the boundary wall (see Fig.~\ref{fig:systemCode}).
+The transfer terms include interfacial drag, wall drag, interfacial heat transfer, and wall heat transfer.
+In principle, based on different two-phase flow pattern, a different phase distribution as well as different interfacial structure can be observed.
+As such, each of those transfer terms takes different form with different parameters depending on the pattern of the two-phase flow and they represent different physical processes take place at each pattern.
+ 
+These physical models, so-called \emph{closure laws or relationships}, close the set of balance equations for mass, momentum, and energy of the two phases.
 They are to be derived experimentally, but proved to be a difficult effort \cite{Nelson1992,Wulff2007} due to various reasons ranging from lack of knowledge to limitation in measurement instruments. 
 Simplifying assumptions and at times extrapolations have to be made simply because of limited available data. 
-Ultimately, the set of models and correlations implemented in the codes is a major of source of uncertainty\footnote{Uncertainty here is exclusively defined as a state of limited knowledge}. 
+Ultimately, the set of models and correlations implemented in the codes is a major of source of uncertainty\footnote{Uncertainty here is defined as a state of limited knowledge, that is of epistemic nature}.
 
-As best-estimate analysis uses less conservative assumptions, and even the best available knowledge of two-phase flow processes in nuclear power plant during transient is still limited, best-estimate analysis has to be complemented with uncertainty analysis.
-The ultimate goal of the analysis is to associate the code prediction with its uncertainty. 
+\subsection{Uncertainty Analysis} 
+
+As best-estimate analysis uses less conservative assumptions, and even the best available knowledge for some two-phase flow processes in nuclear power plant during transient is still limited, best-estimate analysis has to be complemented with uncertainty analysis.
+The ultimate goal of uncertainty analysis is to associate code prediction with its uncertainty. 
 These combined quantities are then compared with certain regulatory safety limits (\textit{e.g.,} Peak Cladding Temperature, PCT) to check whether the limits still fall outside the uncertainty band of the code prediction.
 
-%Over the past couple of decades various methodologies have been developed to treat the uncertainty associated with the code predictions in probabilistic manner.
-%The sources of uncertainties in the input are defined either as an interval or a distribution. 
-%Then they are propagated to obtain the uncertainty estimates of the results. 
-%Characterizing the sources of uncertainty constitutes a crucial step in the whole uncertainty analysis.   
+Over the past couple of decades various methodologies have been developed to treat the uncertainty associated with the code predictions in probabilistic manner.
+The sources of uncertainties in the input are defined either as an interval or a distribution. 
+Then they are propagated to obtain the uncertainty estimates of the results. 
+Characterizing the sources of uncertainty constitutes a crucial step in the whole uncertainty analysis.
 
 \subsection{State of the Research}
 
@@ -118,7 +144,7 @@ The purpose of the benchmark is to obtain this uncertainties in form of probabil
 
 \subsubsection{GRS Methodology}
 
-GRS methodology was developed by GRS (Gesellschaft f\"ur Anlagen- und Reaktorscherheit) in Germany \cite{Glaeser1994} and for more recent review \cite{Glaeser2008}. 
+GRS methodology was developed by GRS\footnote{Gesellschaft f\"ur Anlagen- und Reaktorscherheit} in Germany \cite{Glaeser1994} and for more recent review \cite{Glaeser2008}. 
 It is based on the statistical technique to propagate the uncertainties in the input and to obtain estimate of reliability measure of the output. 
 The considered sources of uncertainties are comprehensive, ranging from initial conditions, boundary conditions, code models (if an alternative model is available), to the setting for numerical solutions.
 
@@ -134,7 +160,7 @@ The probability characterization involves elicitation process which derived from
 
 \subsubsection{CIRCÉ}
 
-CIRCÉ (Calcul des Incertitudes Relatives aux Corrélation Élementaires) is a tool/methodology developed by CEA in France. 
+CIRCÉ (Calcul des Incertitudes Relatives aux Corrélation Élementaires) is a tool/methodology developed by CEA\footnote{Commissariat à l'énergie atomique et aux énergies alternatives} in France. 
 It treats the problem of quantifying parametric uncertainty in system code as an inverse problem. 
 The likelihood of observing the data using code with a set of intermediate parameters is maximized. 
 The posterior of this intermediate parameters are assumed to be independent normal distribution. 
