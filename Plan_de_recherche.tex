@@ -133,8 +133,8 @@ We will refer to $\vec{\theta}_m$ as the \emph{physical model parameters}.
 
 As explained, best-estimate analysis uses more realistic modeling assumptions for analyzing transient behavior of nuclear power plant.
 It attempts as realistically as possible to describe the behavior of physical processes occur in power plant transient.
-And yet, even the best available knowledge for some two-phase flow processes in nuclear power plant during transient is still limited.
-Data support for some processes is limited or understanding of complex phenomena might not yet adequate.
+And yet, even the best available understanding is still limited. 
+Understanding of complex phenomena might not yet adequate and data support for some processes can be very limited.
 Simplifying assumptions, approximations and expert judgments to some degree are unavoidable and still required to have a complete analysis. 
 
 Hence, best-estimate analysis has to be complemented with uncertainty analysis.
@@ -150,9 +150,9 @@ The following are the sources of primary interest in the current research:
 	\item The value model parameters $\vec{\theta}_m$ are often not known \emph{a priori} and requires calibration to fit observed data.
 \end{enumerate}
 
-In statistical uncertainty analysis, the input and physical model parameters are modeled as random variable ($\mathbf{\Theta}_i$ and $\mathbf{\Theta}_m$, respectively) with probability distributions. 
+In statistical uncertainty analysis, the input and physical model parameters are modeled as random variables ($\mathbf{\Theta}_i$ and $\mathbf{\Theta}_m$, respectively) with probability distributions. 
 Then using Monte Carlo technique, samples are generated from their respective distribution.
-These samples are used to run the code multiple times resulting in multiple results. 
+These samples are used to run the code multiple times. 
 Finally, statistics of the code output (which is now also a random variable, $\mathbf{\mathcal{U}}(\mathbf{x},t)$) are summarized to obtain uncertainty measure of the prediction. 
 In other words, the uncertainties in the input and physical model are \emph{propagated} forward into the code to quantify the uncertainty of the predictions as shown in Fig.~\ref{fig:forwardUQ}.
 \begin{figure}[htbp]
