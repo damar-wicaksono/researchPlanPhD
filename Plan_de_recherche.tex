@@ -18,6 +18,7 @@
 \usepackage[tt]{titlepic}
 \usepackage{fancyhdr}
 \usepackage{pdflscape}
+\usepackage[uline]{hhtensor}
 %\usepackage[style=ieee]{biblatex}
 
 \topmargin=-0.45in      %
@@ -109,7 +110,7 @@ They are to be derived experimentally, but proved to be a difficult effort \cite
 Simplifying assumptions and at times extrapolations have to be made simply because of limited available data. 
 Ultimately, the set of models and correlations implemented in the codes is a major of source of uncertainty\footnote{Uncertainty here is defined as a state of limited knowledge, that is of \emph{epistemic} nature}.
 
-\subsection{Uncertainty Analysis} 
+\subsection{Statistical Uncertainty Analysis} 
 
 As explained, best-estimate analysis uses more realistic modeling assumptions for analyzing transient behavior of nuclear power plant.
 It attempts as realistically as possible to describe the behavior of physical processes occur in power plant transient.
@@ -126,32 +127,41 @@ They were adapted from \cite{Cheung2011} to fit our discussion on system code an
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.55\textwidth]{Model.pdf}
-	\caption{Simplified system code as an Input/Output Model}
+	\caption{Simplified illustration of system code as an Input/Output model}
 	\label{fig:Model}
 \end{figure}
 
 From above figure, it can be seen that \emph{input} defines specific problem of interest.
 It includes specifications for geometrical configuration, choice of material and fluid involves, as well as initial and boundary conditions.
-These input might be parametrized, and if they do we will refer to them as \emph{input parameters}. 
+It may also includes specific numerical solution settings.
+As the input are often parametrized, we will refer to them as \emph{input parameters}, $\vec{\theta}_i$ . 
 Defining the input (as far as user is concerned) completely defines the problem and the code will solve balance equation which output the dynamic state of $\mathbf{u}(\mathbf{x}, t)$ (fluid pressure, temperature, etc.). 
-The balance equations are closed with additional set of closure laws $\{\mathcal{M}(\underline{\theta}_m, \mathbf{u})\}$.
-These closure laws in turn are parametrized with a set of parameters $\underline{\theta}_m$ and also a function of the state variables $\mathbf{u}$. 
-We will refer to $\underline{\theta}_m$ as the \emph{physical model parameters}.
+The balance equations are closed with additional set of closure laws $\{\mathcal{M}(\vec{\theta}_m, \mathbf{u})\}$.
+These closure laws in turn are parametrized with a set of parameters $\vec{\theta}_m$ and also a function of the state variables $\mathbf{u}$. 
+We will refer to $\vec{\theta}_m$ as the \emph{physical model parameters}.
 
 There are several known sources of uncertainty that render $\mathbf{u}(\mathbf{x}, t)$ prediction uncertain.
 The following are the sources of primary interest in the current research:
 \begin{enumerate}
-	\item Initial and boundary conditions are not perfectly known for a given problem.
+	\item Initial and boundary conditions are not perfectly known for a given problem. Additionally, other constituents of input (material properties) might not also not known exactly.
 	\item The balance equations, originally in partial differential equations, are discretized and solved with finite precision.
 	\item The closure laws are approximation. They derived from limited experimental data, and in some cases, in different experimental conditions as compared to the purpose of the model.
-	\item The value model parameters $\underline{\theta}_m$ are often not known \emph{a priori} and requires calibration to fit observed data.
+	\item The value model parameters $\vec{\theta}_m$ are often not known \emph{a priori} and requires calibration to fit observed data.
 \end{enumerate}
 
 
-Over the past couple of decades various methodologies have been developed to treat the uncertainty associated with the code predictions in probabilistic manner.
-The sources of uncertainties in the input are defined either as an interval or a distribution. 
-Then they are propagated to obtain the uncertainty estimates of the results. 
-Characterizing the sources of uncertainty constitutes a crucial step in the whole uncertainty analysis.
+In statistical uncertainty analysis, the input and physical model parameters are modeled as random variable ($\mathbf{\Theta}_i$ and $\mathbf{\Theta}_m$, respectively) with probability distributions. 
+Then using Monte Carlo technique, samples are generated from their respective distribution.
+These samples are used to run the code multiple times resulting in multiple results. 
+Finally, statistics of the code output (which is now also a random variable, $\mathbf{\mathcal{U}}(\mathbf{x},t)$) are summarized to obtain uncertainty measure of the prediction. 
+In other words, the uncertainties in the input and physical model are \emph{propagated} forward into the code to quantify the uncertainty of the predictions as shown in Fig.~\ref{fig:forwardUQ}.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.55\textwidth]{forwardUQ.pdf}
+	\caption{Uncertainty quantification (propagation)}
+	\label{fig:forwardUQ}
+\end{figure}
+
 
 \subsection{State of the Research}
 
