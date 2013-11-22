@@ -203,61 +203,73 @@ We will revisit this discussion in the subsequent section.
 
 \subsection{State of the Research}
 
-The importance of characterizing the uncertainty in the physical models is acknowledged by the Working Group on the Analysis and Management of Accidents (WGAMA) of the OECD/NEA. 
-This led to the PREMIUM (Post-BEMUSE Reflood Models Input Uncertainty Methods) project whose main goal is to report the state-of-the-art of the available methodologies to quantify the uncertainty in the physical models. 
+The importance of characterizing the uncertainty in the physical models parameters is acknowledged by the Working Group on the Analysis and Management of Accidents (WGAMA) of the OECD/NEA\footnote{Organization of Economic Cooperation and Development / Nuclear Energy Agency}. 
+This led to the PREMIUM \footnote{Post-BEMUSE Reflood Models Input Uncertainty Methods} project.
+Its main goal is to report the state-of-the-art of the available methodologies to quantify the uncertainty in the physical models parameters. 
 The following will briefly describe the PREMIUM project which provides a context for this research as well as some of the available methodologies proposed by different organizations.
 
 \subsubsection{OECD/NEA PREMIUM Benchmark}
 
-The PREMIUM benchmark is an activity launched by the OECD/NEA in 2012 with the aim to advance the methods for quantifying the physical models uncertainties in thermal-hydraulics system codes. 
-Unlike the previous project BEMUSE (Best-Estimate Methods - Uncertainty and Sensitivity Evaluation), 
-the emphasis in the current project is placed on the model uncertainty and its quantification will be based on a given set of data.
+The PREMIUM benchmark is an activity launched by the OECD/NEA in 2012 with the aim to advance the methods for quantifying the physical models parameters uncertainties in thermal-hydraulics system codes.
+It is a continuation of the previous project BEMUSE\footnote{Best-Estimate Methods - Uncertainty and Sensitivity Evaluation}, which concentrated on the propagation of input uncertainties in large scale simulation (Large Break - LOCA).
+The main finding of the BEMUSE project can be found in \cite{Perezetal2011}.
+The emphasis in the current project is placed on the derivation of the model parameters uncertainty and their validation.
 
-The steps taken for the benchmark consist mainly of three parts: identification of important parameters, uncertainty quantification of model uncertainty based on a given data set, and propagation of the obtained model uncertainty and compare with another set of data. 
-The model considered are focused on the reflood models and the available data is taken from series of reflood experiments at FEBA and PERICLES facilities.
+The scope of the project is limited to the physical models in system code to simulate bottom reflood phenomena.
+Experimental data from two separate effect test facilities (SETF) was made available for the purpose of uncertainty quantification of the model parameters as well as of validation.
+For the model parameters uncertainty quantification, the data from the FEBA reflood facility \cite{IhleRust1984} is used.
+The derived uncertainties will then be propagated and compared with the experimental data from another reflood facility (PERICLES).
+Thus the main goal of the project follows the approach of statistical uncertainty analysis explained previously.
 
 The term ``input'' defined in the benchmark requires further clarification. 
 The input here is not necessarily coming from usual user specification which is strictly speaking involves mainly system geometry, initial condition, boundary condition specifications. 
-In the case of reflood models, most codes are expected to calculate reflood based on the built-in conditions along with built-in parameters associated with each constituent models. 
-That is, reflood models are part of internal machinery of the codes. 
-However, the parameters associated with reflood model do become input for the purpose of uncertainty propagation analysis as there are uncertainties associated with these models and parameters. 
-The purpose of the benchmark is to obtain this uncertainties in form of probability distribution to be sampled and propagated. 
+However, the parameters associated with reflood model do become input for the purpose of uncertainty propagation analysis as there are uncertainties associated with these parameters. 
+Following our original convention, the ``input'' in the benchmark refers to both \emph{model input parameters and model physical parameters}.
 
 \subsubsection{GRS Methodology}
 
-GRS methodology was developed by GRS\footnote{Gesellschaft f\"ur Anlagen- und Reaktorscherheit} in Germany \cite{Glaeser1994} and for more recent review \cite{Glaeser2008}. 
+GRS methodology was developed by GRS\footnote{Gesellschaft f\"ur Anlagen- und Reaktorscherheit} in Germany \cite{Glaeser1994} and for review see \cite{Glaeser2008}. 
 It is based on the statistical technique to propagate the uncertainties in the input and to obtain estimate of reliability measure of the output. 
-The considered sources of uncertainties are comprehensive, ranging from initial conditions, boundary conditions, code models (if an alternative model is available), to the setting for numerical solutions.
+The considered sources of uncertainties are comprehensive, ranging from initial conditions, boundary conditions, code models (if an alternative model is available), to the settings for numerical solutions.
 
-The uncertainty analysis of the output of interest (\textit{e.g.,} PCT) is carried out by propagating the sampled uncertain input from their distribution. 
-This simply means running the code multiple times with different input values. 
-The required minimum of simulation runs is determined by the Wilks' formula \cite{Wilks1942} which depends on the desired tolerance level of the output \cite{Glaeser2008}. 
-For example, based on the formula, 59 code runs are required to obtain the $95\%$ confidence level that the output of interest will not exceed the $95$th (percentile) of the corresponding output distribution.
-The number of runs does not depends on number of uncertain input parameters and full characterization of output distribution is not required.
-
-The uncertainty of the input is treated in probabilistic framework with probability is interpreted as state of knowledge. 
-This is a Bayesian view of uncertainty. 
-The probability characterization involves elicitation process which derived from expert judgments \cite{Glaeser1994}. 
-
-\subsubsection{CIRCÉ}
-
-CIRCÉ (Calcul des Incertitudes Relatives aux Corrélation Élementaires) is a tool/methodology developed by CEA\footnote{Commissariat à l'énergie atomique et aux énergies alternatives} in France. 
-It treats the problem of quantifying parametric uncertainty in system code as an inverse problem. 
-The likelihood of observing the data using code with a set of intermediate parameters is maximized. 
-The posterior of this intermediate parameters are assumed to be independent normal distribution. 
-The relationship between important parameter and code code quantity of interest is assumed to be linear and only the first (local) derivative is required for the analysis.
+GRS adopts subjective view of input and physical model uncertainties which measure state of knowledge.
+The elicitation procedure to formalize expert judgments and knowledge into probability measure (values betwen 0 to 1) and distribution was carried out.
+This procedure of relying on expert judgments by no means simple or non-systematic.
+In the original paper \cite{Glaeser1994}, it was describe that three meetings were organized between the technical experts and statistician.
+The role of the statistican was to assist the elicitation process.
+Related to PREMIUM project where uncertainty of input is of interest, GRS adopts the same procedure.
 
 \subsubsection{FFTBM Methodology}
 
-FFTBM (Fast Fourier Transform Based Method) is a methodology developed by University of Pisa as part of their integrated uncertainty methodology UMAE (Uncertainty Method Based on the Accuracy Extrapolation) \cite{Prosek2002,DAuria1998}. 
-The UMAE method is based on the idea that uncertainty of code results for full scale reactor transient simlation can be extrapolated from the accuracy of code results made on integral test facilities (where reference data is available). 
-This differs from most of the other methods in a sense that the propagation of uncertainty is directly carried out from test data into full scale facility.
+FFTBM (Fast Fourier Transform Based Method) is a methodology developed by University of Pisa as part of their integrated uncertainty methodology UMAE (Uncertainty Method Based on the Accuracy Extrapolation) \cite{Prosek2002,DAuria1998}.
+In FFTBM, the uncertainties of parameters are also treated probabilistically.
+The distributions of the important parameters are assumed to be uniform and independent. 
+However, the bounds of the distribution are inferred using experimental data and analysis of prediction accuracy.
 
-In FFTBM, the distributions of the important parameters are assumed to be uniformed and independent, but the supports are inferred from the available data. 
-Fast Fourier Transform is applied to quantify the accuracy in the code results and the available data for the quantity of interest (usually in the form of time series). 
-The Average Amplitude (AA), the ratio between the transformed code results and data, describes the discrepancy between the two. 
+As the usual quantity of interest both in experimental data or code prediction takes the form of time series, Fast Fourier Transform is applied. 
+The accuracy of code prediction is then treated in the frequency domain.
+The error or discrepancy (the difference between experiment and calculation) in the amplitude in the frequency domain is compared to the experimental amplitude in the same domain.
+The ratio between the two is defined as the Average Amplitude (AA).
+
 In the subsequent analysis, sensitivity analysis is first carried out to determine the important parameters that the AA is sensitive to. 
-Then by defining criterion for maximum allowed deviation of AA from the base case, the range of each parameters can be inferred.
+Then by defining criterion for maximum allowable deviation of AA from the reference case, the range of each parameters can be inferred.
+As the distributions of these important parameters are assumed to be uniform and independent, the range inferred defines the bounds for this distribution.
+
+\subsubsection{CIRCÉ}
+
+CIRCÉ (Calcul des Incertitudes Relatives aux Corrélation Élementaires) is a tool/methodology developed by CEA\footnote{Commissariat à l'énergie atomique et aux énergies alternatives} in France \cite{deCrecy2001}.
+The methodology was developed to quantify the uncertainty of the closure laws in CATHARE2 code although applicable to other codes. 
+The main difference of CIRCÉ to the aforementioned 2 is it treats the problem of quantifying parametric uncertainty in system code as an inverse problem in line with the previous discussion. 
+
+CIRCÉ operates on two main hypotheses.
+First, the physical model parameters are assumed to be independent and each is normally distributed.
+Second, the relationship between the physical model parameters and code prediction is linear.
+These two hypotheses simplify posterior calculation of the model parameters uncertainty.
+
+Linear model with a Gaussian distribution will yield normal distribution in the posterior.
+Joint normal distribution in turn is fully characterized by the mean and standard deviation.
+The means of model parameters and their standard deviation are calculated using Expectation-Maximization (EM) algorithm.
+Linearity hypothesis only requires first order derivative of the code prediction to each of the parameters.
 
 \newpage
 \section{Objectifs /  {\large\textit{Objectives}}:}
