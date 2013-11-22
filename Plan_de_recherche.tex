@@ -70,13 +70,13 @@ Furthermore, with less shear, there is less resistance in injecting emergency co
 Both of these are clearly non-conservative and contradicting the first conservative assumption.  
 
 Therefore, a more accurate prediction of two-phase flow transient behavior was deemed necessary for safety analysis of nuclear power plant under accident conditions.
-As opposed to conservative analysis, this approach was coined \textit{best-estimate} analysis. 
+As opposed to conservative analysis, the term for this approach was coined \textit{best-estimate} analysis. 
 Such an analysis calls for physically sound thermal-hydraulics models with realistic modeling assumptions which at the same time are also backed by experimental data.
 With the idea of having more realistic prediction in mind, a best-estimate thermal-hydraulics (TH) system code was developed.
 The code is designed to be a comprehensive tool capable simulating realistically wide range of transients foreseen in nuclear power plant operation.
 It was developed using the current best understanding of flow processes expected to happen during the transients.
  
-\subsection{Models and Codes}
+\subsection{Thermal-Hydraulics Models and System Codes}
 
 As mentioned, thermal-hydraulics system codes was designed to simulate system behavior of a power plant during off-normal or accident conditions. 
 The typical structure of system code is illustrated in Fig.~\ref{fig:systemCode}. 
@@ -102,7 +102,7 @@ The model can capture phenomena where thermal and mechanical non-equilibrium con
 
 The validity of the two-fluid model widely implemented in thermal-hydraulics system codes relies on the proper modeling of the transfer terms between phases and each phase to the boundary wall (see Fig.~\ref{fig:systemCode}).
 The transfer terms include interfacial drag, wall drag, interfacial heat transfer, and wall heat transfer.
-In principle, based on different two-phase flow pattern, a different phase distribution as well as different interfacial structure can be observed.
+In principle, based on different two-phase flow pattern, different phase distribution as well as different interfacial structure can be observed.
 As such, each of those transfer terms takes different form with different parameters depending on the pattern of the two-phase flow and they represent different physical processes take place at each pattern.
  
 These physical models, or the so-called \emph{closure laws or relationships} mentioned previously, close the set of balance equations for mass, momentum, and energy of the two phases.
@@ -110,12 +110,12 @@ They are to be derived experimentally, but proved to be a difficult effort \cite
 Simplifying assumptions and at times extrapolations have to be made simply because of limited available data. 
 Ultimately, the set of models and correlations implemented in the codes is a major of source of uncertainty\footnote{Uncertainty here is defined as a state of limited knowledge, that is of \emph{epistemic} nature}.
 
-Before continuing our discussion on uncertainty analysis of code predictions, it will be worthwhile to define some terminologies to avoid latter confusion.
+Before continuing our discussion on uncertainty analysis of code predictions, it will be worthwhile to define some terminologies to avoid later confusion.
 We will refer to the following figure to describe system code in more generic way (\emph{i.e.,} an I/O model).
 They were adapted from \cite{Cheung2011} to fit our discussion on system code and its physical model.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.55\textwidth]{Model.pdf}
+	\includegraphics[width=0.50\textwidth]{Model.pdf}
 	\caption{Simplified illustration of system code as an Input/Output model}
 	\label{fig:Model}
 \end{figure}
@@ -133,7 +133,7 @@ We will refer to $\vec{\theta}_m$ as the \emph{physical model parameters}.
 
 As explained, best-estimate analysis uses more realistic modeling assumptions for analyzing transient behavior of nuclear power plant.
 It attempts as realistically as possible to describe the behavior of physical processes occur in power plant transient.
-And yet, even the best available understanding is still limited. 
+And yet, even the best available understanding of the physical processes is still limited. 
 Understanding of complex phenomena might not yet adequate and data support for some processes can be very limited.
 Simplifying assumptions, approximations and expert judgments to some degree are unavoidable and still required to have a complete analysis. 
 
@@ -157,11 +157,49 @@ Finally, statistics of the code output (which is now also a random variable, $\m
 In other words, the uncertainties in the input and physical model are \emph{propagated} forward into the code to quantify the uncertainty of the predictions as shown in Fig.~\ref{fig:forwardUQ}.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.55\textwidth]{forwardUQ.pdf}
+	\includegraphics[width=0.45\textwidth]{forwardUQ.pdf}
 	\caption{Uncertainty quantification (propagation)}
 	\label{fig:forwardUQ}
 \end{figure}
 
+As can already be concluded, representing the input and physical model parameters as random variables is the key in statistical uncertainty analysis of system code. 
+And indeed, it is the main challenge in making robust statistical analysis of code predictions. 
+The input variables (such as initial and boundary conditions) are usually measured but with finite precision.
+Thus their uncertainties can be associated with measurement uncertainties. 
+
+The physical model parameters, however, are fundamentally different. 
+The physical models we refer to are usually represented either in the form of correlation or mechanistic model. 
+The parameters associated with these models are derived from experimental data. 
+They can either represent physically meaningful quantities (reaction rate coefficient) or not (tuning parameter). 
+In either way, there are uncertainties associated with these parameters especially as the condition of their intended use in making prediction can be very different of their derivation (laboratory, controlled condition).
+
+The physical model parameters often cannot be measured directly.
+To estimate their values, basic experiments are carried out and model or correlation is fitted.
+Then the optimal value of the estimated parameter is implemented in the code.
+As the code is used to simulate multiple phenomena at a given period, additional experiments are carried out in more integrated test facility. And, based on the data obtained, the models can be validated and calibrated.
+
+To obtain the uncertainty estimate of the physical model parameters, the problem can be posed as inverse problem. 
+In this setting, given set of experimental data $\{\mathbf{D}\}$ with a known initial and boundary conditions $\vec{\theta}_i$, the task is to infer the value of the physical model parameters. 
+It is important to acknowledge various sources of uncertainty previously mentioned. 
+Experimental data and initial and boundary conditions though measured are only known to some degree.
+The models are also only approximation of the real processes. 
+There are uncertainties associated with them.
+
+In probabilistic setting, a natural way to make an inference of parameters based on observed data is through Bayes' theorem \cite{Bayes1763},
+\begin{equation}
+	p(\vec{\theta}_m | \{D\}, \vec{\theta}_i, I) = \frac{\pi(\{D\} | \vec{\theta}_m, \vec{\theta}_i, I) \cdot p_0(\vec{\theta}_m, \vec{\theta}_i | I)}{p(\{D\}, \vec{\theta}_i)}
+\nonumber	
+\end{equation}
+Where the left-hand side signifies the posterior probability of the model parameters conditioned on the data, input parameters, and additional background information $I$. 
+The right hand-side constitutes of $\pi$ the likelihood (probability of observing data given $\vec{\theta}_m$), the prior $p_o$ (the degree or state of knowledge we have on the parameter values), and in the denominator, evidence (a normalizing constant to be a valid probability measure).
+The uncertainty quantification in \emph{inverse} setting can be seen in Fig.~\ref{fig:backwardUQ} to contrast it with Fig.~\ref{fig:forwardUQ}.
+We will revisit this discussion in the subsequent section.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.50\textwidth]{backwardUQ.pdf}
+	\caption{Uncertainty quantification (inverse)}
+	\label{fig:backwardUQ}
+\end{figure}
 
 \subsection{State of the Research}
 
@@ -336,12 +374,12 @@ The following paragraphs will describe each of the errors.
 Input error refers to the difference between the true input $\mathbf{\tilde{x}}$ and the measured input $\mathbf{x}$. 
 The measured input is limited by the imperfection of the measurement device. 
 In the context of separate effect test, the input is the imposed initial and boundary conditions of the experiment. 
-These conditions drive the system response during the test and they are measured with finite precision. 
+These conditions drive the system response during the test and they are measured with finite precision.
 Because the test conditions differ even within the same facility, these errors has to be taken into account for robust parameter estimation.
 
 Output error is analogous to the input error described above. 
 It is the difference between the true output $\mathbf{\tilde{y}}$ and the measured output $\mathbf{y}$. 
-It is the system response for the imposed boundary conditions. 
+It is the system response for the imposed initial and boundary conditions. 
 
 Structural error is defined as the difference between model results and the true output $\mathbf{\tilde{y}}$. 
 Modeling process relates the input to the output via a model parametrized with $\vec{\theta}$. 
@@ -436,15 +474,19 @@ Here the RNG k-epsilon turbulence model (parametrized by 7 parameters and shown 
 \nonumber
 \end{equation}
 where
-%<img class="tex" alt="&#10;C_{2\epsilon}^* = C_{2\epsilon} + {C_\mu \eta^3 (1-\eta/\eta_0)\over 1+\beta\eta^3}&#10;" src="/W/images/math/e/2/a/e2a27a85f6d4262011ab7fcab0da9941.png" />
-and
-%<img class="tex" alt="&#10;\eta = S k / \epsilon&#10;" src="/W/images/math/1/6/9/1693f90d80dfa8132311443a160b180f.png" />
-and
-%<img class="tex" alt="&#10;S=(2S_{ij}S_{ij})^{1/2}&#10;" src="/W/images/math/4/c/0/4c05eea8c0df2b78ab86e60fa80b48d1.png" />
+\begin{equation}
+\begin{array}{rrl}
 
+C_{2\epsilon}^* & = & C_{2\epsilon} + {C_\mu \eta^3 (1-\eta/\eta_0)\over 1+\beta\eta^3} \\
 
+\eta & = & S k / \epsilon \\
 
-The turbulence model is implemented in the OpenFOAM framework in which the backstep flow simulation model is part of the OpenFOAM validation case.
+S & = & (2S_{ij}S_{ij})^{1/2} \\
+
+\end{array}
+\nonumber
+\end{equation}
+The 7 parameters from above set of equations are $C_\mu, \sigma_k, \sigma_\epsilon, C_{1\epsilon}, C_{2\epsilon}, \eta_0,$ and $\beta$. Their initial values are given in Table~\ref{tab:BoundsOfUniformPDFs}. The turbulence model is implemented in the OpenFOAM framework in which the backstep flow simulation model is part of the OpenFOAM validation case.
 
 The first step in statistical calibration is to develop a stochastic error model that probabilistically relates measured data and simulation results. 
 There are two stochastic error models considered in the present analysis, the model either assumed to be independent or spatially correlated with an exponential form of correlation (with correlation length scale to be estimated). 
