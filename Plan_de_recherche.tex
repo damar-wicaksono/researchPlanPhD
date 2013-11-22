@@ -80,24 +80,24 @@ It was developed using the current best understanding of flow processes expected
 As mentioned, thermal-hydraulics system codes was designed to simulate system behavior of a power plant during off-normal or accident conditions. 
 The typical structure of system code is illustrated in Fig.~\ref{fig:systemCode}. 
 As can be seen, system code constitutes of several building blocks that can be used to modeled and simulate wide range of system and conditions. 
-The core of system code is the balance equations describing the dynamic state of the fluid. 
+The core of system code is the balance equations describing the dynamic state of the fluid.
 To close the system\footnote{\textit{i.e.}, to have the same number of equations as the number of unknowns}, it has to be complemented by 2 additional set of constitutive equations. 
 First, the equation of state describing the thermodynamic relation between state variables of a given fluid. 
 And second, the closure relationships describing the interaction between phases and each phase to the boundary wall in terms of mass, momentum, and energy.  
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.55\textwidth]{SystemCode.pdf}
+	\includegraphics[width=0.50\textwidth]{SystemCode.pdf}
 	\caption{Structure of a system code}
 	\label{fig:systemCode}
 \end{figure}
 
 In a typical usage, a user will specify the geometry (the configuration of the plant), as well as boundary and initial conditions for the problem of interest.
-Based on this information, the code will then in solves a set of balance equations describing the fluid flow.
+Based on this information, the code will then solves a set of balance equations describing the fluid flow.
 As a result, the code will make prediction on the evolution of the fluid state, namely, pressure, enthalpy, and fluid velocity in each part of the modeled plant.
 
 The state-of-the-art model widely implemented in TH system codes to describe the dynamics of fluid flow in nuclear power plant is based on the two-fluid model \cite{Ishii2011}.
 This model separately treats the transport phenomena of the two phases of fluid (gas and liquid) resulting in 6 balance equations (mass, momentum, and energy for each phase).
-The model can capture phenomena where thermal and mechanical non-equilibrium conditions exist between the two phases, conditions which are more realistic in wide range of nuclear power plant transients.
+The model can capture phenomena where thermal and mechanical non-equilibrium conditions exist between the two phases, conditions which gives more realistic picture in wide range of nuclear power plant transients.
 
 The validity of the two-fluid model widely implemented in thermal-hydraulics system codes relies on the proper modeling of the transfer terms between phases and each phase to the boundary wall (see Fig.~\ref{fig:systemCode}).
 The transfer terms include interfacial drag, wall drag, interfacial heat transfer, and wall heat transfer.
@@ -112,13 +112,41 @@ Ultimately, the set of models and correlations implemented in the codes is a maj
 \subsection{Uncertainty Analysis} 
 
 As explained, best-estimate analysis uses more realistic modeling assumptions for analyzing transient behavior of nuclear power plant.
-It attempts to realistically describe the behavior of physical processes occur in power plant transient.
+It attempts as realistically as possible to describe the behavior of physical processes occur in power plant transient.
 And yet, even the best available knowledge for some two-phase flow processes in nuclear power plant during transient is still limited.
-Data support for some processes is limited or adequate understanding of complex phenomena might not yet available.
+Data support for some processes is limited or understanding of complex phenomena might not yet adequate.
 Simplifying assumptions, approximations and expert judgments to some degree are unavoidable and still required to have a complete analysis. 
 Hence, best-estimate analysis has to be complemented with uncertainty analysis.
 The ultimate goal of uncertainty analysis is to associate code prediction with its uncertainty. 
 These combined quantities are then compared with certain regulatory safety limits (\textit{e.g.,} Peak Cladding Temperature, PCT) to check whether the limits still fall outside the uncertainty band of the code prediction.
+
+Before continuing our discussion on uncertainty analysis of code predictions, it will be worthwhile to define some terminologies to avoid latter confusion.
+We will refer to the following figure to describe system code in more generic way (\emph{i.e.,} an I/O model).
+They were adapted from \cite{Cheung2011} to fit our discussion on system code and its physical model.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.55\textwidth]{Model.pdf}
+	\caption{Simplified system code as an Input/Output Model}
+	\label{fig:Model}
+\end{figure}
+
+From above figure, it can be seen that \emph{input} defines specific problem of interest.
+It includes specifications for geometrical configuration, choice of material and fluid involves, as well as initial and boundary conditions.
+These input might be parametrized, and if they do we will refer to them as \emph{input parameters}. 
+Defining the input (as far as user is concerned) completely defines the problem and the code will solve balance equation which output the dynamic state of $\mathbf{u}(\mathbf{x}, t)$ (fluid pressure, temperature, etc.). 
+The balance equations are closed with additional set of closure laws $\{\mathcal{M}(\underline{\theta}_m, \mathbf{u})\}$.
+These closure laws in turn are parametrized with a set of parameters $\underline{\theta}_m$ and also a function of the state variables $\mathbf{u}$. 
+We will refer to $\underline{\theta}_m$ as the \emph{physical model parameters}.
+
+There are several known sources of uncertainty that render $\mathbf{u}(\mathbf{x}, t)$ prediction uncertain.
+The following are the sources of primary interest in the current research:
+\begin{enumerate}
+	\item Initial and boundary conditions are not perfectly known for a given problem.
+	\item The balance equations, originally in partial differential equations, are discretized and solved with finite precision.
+	\item The closure laws are approximation. They derived from limited experimental data, and in some cases, in different experimental conditions as compared to the purpose of the model.
+	\item The value model parameters $\underline{\theta}_m$ are often not known \emph{a priori} and requires calibration to fit observed data.
+\end{enumerate}
+
 
 Over the past couple of decades various methodologies have been developed to treat the uncertainty associated with the code predictions in probabilistic manner.
 The sources of uncertainties in the input are defined either as an interval or a distribution. 
