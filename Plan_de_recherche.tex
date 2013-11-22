@@ -326,12 +326,35 @@ But, there has not been an orchestrated effort to incorporate the accumulated da
 
 \subsection{Objective}
 
-The overall objective of the research is to quantify the uncertainty of physical models implemented in TRACE in the form of closure laws. 
+The overall objective of the research is to quantify the uncertainty of physical models parameters implemented in system code in the form of closure laws.
 These models are parametrized either with physical parameters or tuning parameters. 
 Usual practice by the code developer is to calibrate them against some an experimental without any statement of their uncertainties. 
-To conform with the framework of uncertainty propagation already better developed, especially for \emph{forecasting} purpose, where no data is available whatsoever, uncertainty of these parameters are required in the form of probability distribution. 
-Additionally, this quantification process also need to take into account the accumulated data that has been generated from series of similar experiments from various facilities.
+To conform with the framework of statistical uncertainty propagation, uncertainty of these parameters are required in the form of probability distribution.
+The derivation of these distributions will be based on probabilistic modeling and available experimental data.
+%This is especially useful for \emph{forecasting} purpose, where no experimental data is available whatsoever.  
+%Additionally, this quantification process also need to take into account the accumulated data that has been generated from series of similar experiments from various facilities.
+There are three specific aims in the current research in accordance to the overall objective. 
 
+First is to investigate whether the current physical model in system codes can be identified with the available experimental data from test facilities.
+Global sensitivity analysis methodology can be used to assist in identifying which parameters can be calibrated using the available data.
+Different facilities might have different type of data.
+And although the information content might not be the same for the different type, it might be worthwhile to consider each one of them.
+
+Second is to calibrate the physical model parameters against various relevant experimental data. 
+The word \emph{to calibrate} carries a disparaging interpretation related to \emph{to tweak}. 
+However, using Bayesian framework explained below, the aim of calibration is extended to preserving the uncertainty of the parameter estimation.
+Furthermore, in this framework, various sources of uncertainties can be modeled consistently using probability distributions, including the model discrepancy.
+At the end, the parameters of interest will be in the form of distributions conditioned on the data.
+These distributions are the main ingredients in the aforementioned statistical uncertainty analysis (propagation).
+
+Third is to consolidate the findings in different but similar facilities.
+Indeed, for the same kind of transient, specificity exists in different facilities.
+Some might have more type of data than the others. 
+Some might have been tested in different operating conditions.
+Parameter estimation of the same parameter derived from different facility might have different distribution. 
+Yet, the physical models of phenomena implemented in system code is supposed to be general in a sense that the value of their parameters and their uncertainties can be applicable to simulate similar phenomena in different settings. 
+On the other hand, the consolidation effort might also reveal that the models as they are currently implemented simply cannot be informed by relatively large amount of experimental data from various facilities that the model supposed to simulate. 
+ 
 \subsection{Scope}  
 
 Although the steps taken in this research can be applicable to any system code physical model calibration and validation, the attention will be focused on the models of particular importance during reflooding, the so-called Post-CHF\footnote{Critical Heat Flux} flow regimes. 
@@ -350,6 +373,9 @@ The reasons for this emphasis are:
 	\item Additional data from another reflooding facilities are also available, including data obtained from series of experiments at the Neptun facility conducted at the Paul Scherrer Institut during the 1990s, as well as data from experiments at the PERICLES facility conducted by CEA.
 	\item It is the model considered in PREMIUM benchmark, thus there is possibility to compare the results of this research with the results of the other participants.
 \end{enumerate}
+
+Furthermore the thermal-hydraulics system code considered in this thesis is TRACE (TRAC/RELAP Computational Engine) developed by US NRC.
+The main reason to consider solely this particular code is the fact that TRACE is the thermal-hydraulic code used for the purpose of Swiss nuclear power plant safety analysis within the STARS (Steady-state and Transient Analysis Research for Swiss Reactor) project carried out at Paul Scherrer Institut (PSI) \cite{STARS2013}.
 
 \subsection{Bayesian Framework}
 
@@ -378,7 +404,7 @@ They will have to be modeled probabilistically.
 The following paragraphs will describe each of the errors.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.50\textwidth]{HuardMailhot.pdf}
+	\includegraphics[width=0.45\textwidth]{HuardMailhot.pdf}
 	\caption{Errors and their relation for Bayesian uncertainty analysis (adapted from \cite{HuardMailhot2006})}
 	\label{fig:HuardMailhot}
 \end{figure}
@@ -508,9 +534,9 @@ The likelihood (error function) is formulated in line with the procedure given i
 Here as opposed to approach given by \cite{KennedyOHagan2001}, the multiplicative form discrepancy error was assumed such that no-slip boundary condition is retained. 
 The discrepancy error was assumed to be Gaussian with mean$=1$ and standard deviation to be estimated.
 \begin{equation}
-p(\{D\} | \vec{\theta}, M_j) = \frac{1}{\sqrt{((2\pi)^2 \times|K|)}} \text{exp} \left[ - \frac{(d-y)^T K^{-1} (d-y)}{2} \right]
+p(\{D\} | \vec{\theta}, M_j) = \frac{1}{\sqrt{((2\pi)^N \times|K|)}} \text{exp} \left[ - \frac{(d-y)^T K^{-1} (d-y)}{2} \right]
 \end{equation}
-Where the $d$ is the measured velocity data, $y$ is the simulation results with a given set of parameters, and $K$ is the covariance matrix which depends on the model structure $M_j$. 
+Where $d$ is the measured velocity data, $y$ is the simulation results with a given set of parameters, and $K$ is the covariance matrix which depends on the model structure $M_j$. 
 For $j=1$, $K = Ke + Ki$ (measurement and model discrepancy independent variance), while for $j=2$, $K = Ke + Kc$ (measurement and model discrepancy correlated variance).
 
 This resulted in 8 parameters for $M_1$ and 9 parameters for $M_2$ to be calibrated. 
@@ -567,6 +593,8 @@ The priors and the results are tabulated in Table~\ref{tab:BoundsOfUniformPDFs} 
 	\label{fig:MarginalPosteriorPDFsForModelParameters}
 \end{figure}
 As can be seen, all the parameters are informed by the data. 
+This mean that there are more plausible values of parameters with associated uncertainties than the others which fit the data better. 
+From the above analysis, it is clear that the uniform parameter distribution as it was assume a priori can be improved by the data.
 The uncertainties of the parameter obtained from the posterior can then be propagated to obtain robust prediction in other quantities (\textit{e.g.,} the wall shear stress). 
 However it was not checked the robustness of the parameter estimation using another data sets. 
 
@@ -623,7 +651,7 @@ Based on the phases identified above, a preliminary schedule for the 3-year diss
             \item List the important parameters in TRACE that are perceived to be important for reflood simulation in SETF.
             \item Externalize these parameters such that it can be specified in an input deck for the purpose of sensitivity and uncertainty analyses 
         \end{itemize}
-    \item \textbf{Task 2 (3 months)}
+    \item \textbf{Task 2 (4 months)}
         \begin{itemize}
             \item Test the modified TRACE for global sensitivity analysis.
             \item Finalize the development of TRACE model for FEBA test facility.
